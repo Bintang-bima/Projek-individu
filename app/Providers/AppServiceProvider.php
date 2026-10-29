@@ -24,10 +24,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
-        if(Schema::hasTable('genres'))
-        {
-            view()->share('genres', Genre::all());
+        try {
+            if(Schema::hasTable('genres'))
+            {
+                view()->share('genres', Genre::all());
+            }
             Paginator::useBootstrap();
+        } catch (\Throwable $e) {
+            // Database (MySQL) belum jalan / tidak tersedia:
+            // biarkan halaman tetap ter-render tanpa data, agar tidak error 500 total.
         }
     }
 }

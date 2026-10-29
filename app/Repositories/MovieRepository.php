@@ -18,6 +18,26 @@ class MovieRepository implements MovieRepositoryInterface
 
     public function index()
     {
-        return Film::all();
+        return Film::with('genre')->get();
+    }
+
+    public function getById($id)
+    {
+        return Film::with('genre')->findOrFail($id);
+    }
+
+    public function store(array $data)
+    {
+        return Film::create($data);
+    }
+
+    public function update(array $data, $id)
+    {
+        return Film::where('id', $id)->update($data);
+    }
+
+    public function delete($id)
+    {
+        return Film::destroy($id);
     }
 }

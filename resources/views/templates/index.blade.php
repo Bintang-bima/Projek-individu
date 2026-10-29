@@ -21,6 +21,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 @include('templates.component.navbar')
 <!-- //nav -->
 <div class="general_social_icons">
+	{{-- Flash message --}}
+	@if (session('success'))
+		<div class="container">
+			<div style="background:#dff0d8; border:1px solid #d6e9c6; color:#3c763d; padding:10px 15px; margin:15px 0 0">
+				{{ session('success') }}
+			</div>
+		</div>
+	@elseif (session('error'))
+		<div class="container">
+			<div style="background:#f2dede; border:1px solid #ebccd1; color:#a94442; padding:10px 15px; margin:15px 0 0">
+				{{ session('error') }}
+			</div>
+		</div>
+	@endif
 	<nav class="social">
 		<ul>
 			<li class="w3_twitter"><a href="#">Twitter <i class="fa fa-twitter"></i></a></li>

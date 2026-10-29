@@ -59,7 +59,7 @@
                       <tbody>
                         @foreach ($perans as $peran)
                         <tr>
-                          <td class="w3-list-info">{{ $peran->cast_id }}</td>
+                          <td class="w3-list-info">{{ $peran->cast?->name ?? '-' }}</td>
                           <td class="w3-list-info">{{ $peran->actor }}</td>
                         </tr>
                         @endforeach
@@ -117,21 +117,35 @@
         <div class="all-comments">
           <div class="all-comments-info">
             <a href="#">Comments</a>
-            <div class="agile-info-wthree-box">
-              <form>
-                <input type="text" placeholder="Name" required="">			           					   
-                <input type="text" placeholder="Email" required="">
-                <input type="text" placeholder="Phone" required="">
-                <textarea placeholder="Message" required=""></textarea>
-                <input type="submit" value="SEND">
-                <div class="clearfix"> </div>
-              </form>
-            </div>
+            @auth
+              <div class="agile-info-wthree-box">
+                <form action="{{ route('kritik.store', $film->id) }}" method="post">
+                  @csrf
+                  <div style="display:flex; gap:10px">
+                    <select name="rating" required style="max-width:180px">
+                      <option value="">Rating</option>
+                      @for ($i = 1; $i <= 5; $i++)
+                        <option value="{{ $i }}" {{ old('rating') == $i ? 'selected' : '' }}>{{ str_repeat('★', $i) }} ({{ $i }})</option>
+                      @endfor
+                    </select>
+                    <div class="clearfix"> </div>
+                  </div>
+                  <textarea name="comment" placeholder="Tulis kritik / komentar Anda" required="">{{ old('comment') }}</textarea>
+                  <input type="submit" value="KIRIM KRITIK">
+                  <div class="clearfix"> </div>
+                </form>
+              </div>
+            @else
+              <div class="agile-info-wthree-box" style="padding:10px 0">
+                <p style="font-size:13px">Silakan <a href="{{ route('login') }}">login</a> untuk memberikan kritik, atau
+                  <a href="#" data-toggle="modal" data-target="#myModal">login cepat</a> / <a href="#" onclick="openRegisterForm(); return false;">daftar</a>.</p>
+              </div>
+            @endauth
           </div>
           <div class="media-grids">
-            @foreach ($comments as $comment)
+            @forelse ($comments as $comment)
               <div class="media">
-                <h5>{{ $comment->user_id }}</h5>
+                <h5>{{ $comment->user?->name ?? 'Pengguna #' . $comment->user_id }} &mdash; {{ str_repeat('★', $comment->rating) }}</h5>
                 <div class="media-left">
                   <a href="#">
                     <img src="{{ asset('storage/images/user.jpg') }}" title="One movies" alt=" " />
@@ -141,7 +155,9 @@
                   <p>{{ $comment->comment }}</p>
                 </div>
               </div>
-            @endforeach
+            @empty
+              <p style="font-size:13px; padding:6px 0">Belum ada komentar. Jadilah yang pertama!</p>
+            @endforelse
           </div>
         </div>
       </div>

@@ -20,15 +20,17 @@
                 <li>
                   <div class="col-sm-4">
                     <ul class="multi-column-dropdown">
-                      @for ($genre = 1; $genre <= $genres->count() - 1; $genre++)
-                        <li><a href="{{ route('genre', $genres[$genre]->id) }}">{{ $genres[$genre]->name }}</a></li>
-                        @if($genre % 7 == 0)
-                          </ul>
-                        </div>
-                        <div class="col-sm-4">
-                          <ul class="multi-column-dropdown">
-                        @endif
-                      @endfor
+                      @if (isset($genres))
+                        @for ($genre = 1; $genre <= $genres->count() - 1; $genre++)
+                          <li><a href="{{ route('genre', $genres[$genre]->id) }}">{{ $genres[$genre]->name }}</a></li>
+                          @if($genre % 7 == 0)
+                            </ul>
+                          </div>
+                          <div class="col-sm-4">
+                            <ul class="multi-column-dropdown">
+                          @endif
+                        @endfor
+                      @endif
                     </ul>
                   </div>
                   <div class="clearfix"></div>
