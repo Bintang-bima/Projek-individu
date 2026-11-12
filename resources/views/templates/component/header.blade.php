@@ -25,7 +25,6 @@
         @else
           <li>
             <a href="#" data-toggle="modal" data-target="#myModal">Login</a>
-            / <a href="#" onclick="openRegisterForm(); return false;">Daftar</a>
           </li>
         @endauth
       </ul>
