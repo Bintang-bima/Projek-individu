@@ -38,6 +38,7 @@
     <a class="menu {{ request()->routeIs('admin.casts.*') ? 'active' : '' }}" href="{{ route('admin.casts.index') }}"><i class="fa fa-group"></i>&nbsp; Casts</a>
     <a class="menu {{ request()->routeIs('admin.perans.*') ? 'active' : '' }}" href="{{ route('admin.perans.index') }}"><i class="fa fa-user-circle"></i>&nbsp; Perans</a>
     <a class="menu {{ request()->routeIs('admin.kritiks.*') ? 'active' : '' }}" href="{{ route('admin.kritiks.index') }}"><i class="fa fa-comments"></i>&nbsp; Kritiks</a>
+    <a class="menu {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}"><i class="fa fa-users"></i>&nbsp; Users</a>
     <div class="section">Lainnya</div>
     <a class="menu" href="{{ route('home') }}"><i class="fa fa-globe"></i>&nbsp; Lihat Website</a>
   </div>

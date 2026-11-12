@@ -7,12 +7,14 @@ use App\Http\Controllers\{
     FilmController,
     KritikController,
     AuthController,
+    ProfileController,
     Admin\DashboardController,
     Admin\FilmController as AdminFilmController,
     Admin\GenreController as AdminGenreController,
     Admin\CastController as AdminCastController,
     Admin\PeranController as AdminPeranController,
     Admin\KritikController as AdminKritikController,
+    Admin\UserController as AdminUserController,
 };
 
 // ---------- Public site ----------
@@ -22,6 +24,12 @@ Route::get('/movies/{film}', [FilmController::class, 'show'])->name('movies.show
 Route::get('/movies/genre/{genre}', [FilmController::class, 'moviesByGenre'])->name('genre');
 
 Route::middleware('auth')->post('/movies/{film}/kritik', [KritikController::class, 'store'])->name('kritik.store');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+});
 
 // ---------- Authentication ----------
 Route::middleware('guest')->group(function () {
@@ -47,4 +55,5 @@ Route::prefix('admin')
         Route::resource('casts', AdminCastController::class)->except('show');
         Route::resource('perans', AdminPeranController::class)->except('show');
         Route::resource('kritiks', AdminKritikController::class)->except('store', 'show', 'create');
+        Route::resource('users', AdminUserController::class)->except('show');
     });
