@@ -1514,3 +1514,14 @@ h3.head {
 		font-size: 1.8em;
 	}
 }
+/* ==== Fix poster raksasa: batasi semua gambar poster agar tidak merusak layout ====
+   Poster yang di-upload bisa berukuran sangat besar (mis. 2400x1080).
+   Aturan bawaan template hanya membatasi img di layar <=1280px (medile.css),
+   jadi di desktop lebar layout ikut membesar. */
+.w3l-movie-gride-agile img,
+.w3l-movie-gride-agile1 img,
+#slidey li img {
+	width: 100%;
+	max-width: 100%;
+	height: auto;
+}
