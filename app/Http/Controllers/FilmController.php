@@ -11,6 +11,7 @@ use App\Models\{
 use App\Http\Requests\StoreFilmRequest;
 use App\Http\Requests\UpdateFilmRequest;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class FilmController extends Controller
 {
@@ -26,6 +27,30 @@ class FilmController extends Controller
                 ->OrderBy('created_at', 'asc')
                 ->paginate(18);
         return view('components/movies', compact('films', 'genreFilm'));
+    }
+
+    /**
+     * Search films by title (public site).
+     */
+    public function search(Request $request)
+    {
+        $query = trim((string) $request->query('q', ''));
+
+        if ($query === '') {
+            return redirect()->route('movies')->with('error', 'Masukkan kata kunci pencarian.');
+        }
+
+        $films = Film::select('id', 'title', 'poster', 'year')
+                ->where('title', 'like', '%' . $query . '%')
+                ->orderByDesc('year')
+                ->OrderBy('created_at', 'asc')
+                ->paginate(18)
+                ->withQueryString();
+
+        $genreFilm = null;
+        $searchQuery = $query;
+
+        return view('components/movies', compact('films', 'genreFilm', 'searchQuery'));
     }
 
     /**

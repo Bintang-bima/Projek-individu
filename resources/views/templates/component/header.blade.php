@@ -3,6 +3,12 @@
     <div class="w3layouts_logo">
       <a href="{{ route('home') }}"><h1>One<span>Movies</span></h1></a>
     </div>
+    <div class="w3_search">
+      <form action="{{ route('movies.search') }}" method="get">
+        <input type="text" name="q" value="{{ request('q') }}" placeholder="Search" required="">
+        <input type="submit" value="Go">
+      </form>
+    </div>
     <div class="w3l_sign_in_register">
       <ul>
         @auth

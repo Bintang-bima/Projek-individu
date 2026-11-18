@@ -10,6 +10,8 @@
             <div class="tittle-head">
               @if ($genreFilm !== null)
                       <h4 class="latest-text">Movies Of Genre {{ $genreFilm->name }}</h4>
+                    @elseif (!empty($searchQuery))
+                      <h4 class="latest-text">Hasil Pencarian "{{ $searchQuery }}"</h4>
                     @else
                       <h4 class="latest-text">List Of Movies</h4>
                     @endif
@@ -20,6 +22,8 @@
                     <li><a href="{{ route('movies') }}">Movies</a></li>
                     @if ($genreFilm !== null)
                       <li class="active">Genre {{ $genreFilm->name }}</li>
+                    @elseif (!empty($searchQuery))
+                      <li class="active">Pencarian "{{ $searchQuery }}"</li>
                     @else
                       <li class="active">All Movies</li>
                     @endif
@@ -29,6 +33,18 @@
             </div>
             <div class="container">
               <div class="browse-inner">
+              @if ($films->isEmpty())
+                <div class="col-md-12" style="padding:30px 0">
+                  <p style="font-size:15px">
+                    @if (!empty($searchQuery))
+                      Tidak ada film yang cocok dengan kata kunci <strong>"{{ $searchQuery }}"</strong>.
+                      Coba kata kunci lain atau <a href="{{ route('movies') }}">lihat semua film</a>.
+                    @else
+                      Belum ada film untuk ditampilkan.
+                    @endif
+                  </p>
+                </div>
+              @endif
               @for ($data = 0; $data < $films->count(); $data++)
               <div class="col-md-2 w3l-movie-gride-agile">
                 <a href="{{ route('movies.show', $films[$data]->id) }}" class="hvr-shutter-out-horizontal"><img src="{{ asset($films[$data]->poster) }}" title="album-name" alt=" " />
@@ -89,7 +105,7 @@
                               <span class="frist" aria-hidden="true">{{ $numberPage }}</span>
                             </li>
                           @else
-                            <li><a href="?page={{ $numberPage }}" class="frist">{{ $numberPage }}</a></li>
+                            <li><a href="{{ $films->url($numberPage) }}" class="frist">{{ $numberPage }}</a></li>
                           @endif
                         @endfor
                         {{-- Number Page/> --}}
